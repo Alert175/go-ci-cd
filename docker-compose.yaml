@@ -1,7 +1,8 @@
 version: "3.7"
 
 services:
-  main-app:
+  app:
+    image: alert1521/ci-cd
     restart: always
     build:
       context: .
