@@ -7,27 +7,27 @@ on:
     branches: [ main ]
 
 jobs:
-
+  # запускаю все в одной job, так как необходимо последовательность дейтвий
   ci_cd:
-
+    # на какой ОС будет выполнен запуск события
     runs-on: ubuntu-20.04
-
+    # шаги pipline
     steps:
     - uses: actions/checkout@v2
-
+    # тестирования проекта
     - name: test
       run: 
         go test --short
-
+    # сборка проекта
     - name: build
       run: docker-compose build
-
+    # авторизация в docker hub
     - name: login to docker hub
       run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
-
+    # отправка готового образа приложения
     - name: hub push
       run: docker push ${{secrets.DOCKERHUB_USERNAME}}/ci-cd
-
+    # подключение к серверу, стягивание образа и запуск приложения
     - name: ssh deploy
       uses: appleboy/ssh-action@master
       with:
