@@ -7,7 +7,6 @@ ADD . /app
 
 WORKDIR /app
 
-RUN go mod tidy
 RUN go build main.go
 
 CMD ["/app/main"]
